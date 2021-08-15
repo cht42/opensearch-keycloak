@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dashboards
+  namespace: opensearch-keycloak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dashboards
+  template:
+    metadata:
+      labels:
+        app: dashboards
+    spec:
+      containers:
+        - name: dashboards
+          image: opensearchproject/opensearch-dashboards:1.0.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: OPENSEARCH_HOSTS
+              value: '["http://opensearch:9200"]'
+          ports:
+            - containerPort: 5601
+              name: http
+              protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dashboards
+  namespace: opensearch-keycloak
+  labels:
+    app: dashboards
+spec:
+  selector:
+    app: dashboards
+  type: NodePort
+  ports:
+    - name: http
+      port: 5601
+      nodePort: 30002

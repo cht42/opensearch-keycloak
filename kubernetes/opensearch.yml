@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: opensearch
+  namespace: opensearch-keycloak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: opensearch
+  template:
+    metadata:
+      labels:
+        app: opensearch
+    spec:
+      containers:
+        - name: opensearch
+          image: opensearchproject/opensearch:1.0.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: cluster.name
+              value: opensearch
+            - name: node.name
+              value: opensearch
+            - name: discovery.type
+              value: single-node
+            - name: bootstrap.memory_lock
+              value: "true"
+            - name: plugins.security.ssl.http.enabled
+              value: "false"
+          ports:
+            - containerPort: 9200
+              name: http
+              protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: opensearch
+  namespace: opensearch-keycloak
+  labels:
+    app: opensearch
+spec:
+  selector:
+    app: opensearch
+  type: NodePort
+  ports:
+    - name: http
+      port: 9200
+      nodePort: 30001
