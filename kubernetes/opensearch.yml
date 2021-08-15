@@ -13,6 +13,10 @@ spec:
       labels:
         app: opensearch
     spec:
+      volumes:
+        - name: opensearch-data
+          persistentVolumeClaim:
+            claimName: opensearch-pvc
       containers:
         - name: opensearch
           image: opensearchproject/opensearch:1.0.0
@@ -32,6 +36,9 @@ spec:
             - containerPort: 9200
               name: http
               protocol: TCP
+          volumeMounts:
+            - name: opensearch-data
+              mountPath: /usr/share/opensearch/data
 ---
 apiVersion: v1
 kind: Service

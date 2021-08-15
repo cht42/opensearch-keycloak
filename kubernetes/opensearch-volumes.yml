@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: opensearch-pv
+  namespace: opensearch-keycloak
+  labels:
+    component: opensearch-pvc
+    role: data
+    type: local
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /data/opensearch-keycloak
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: opensearch-pvc
+  namespace: opensearch-keycloak
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+  selector:
+    matchLabels:
+      component: opensearch-pv
