@@ -1,0 +1,115 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: opensearch-master
+  labels:
+    app: opensearch
+    role: master
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: opensearch
+      role: master
+  template:
+    metadata:
+      labels:
+        app: opensearch
+        role: master
+    spec:
+      # affinity:
+      #   podAntiAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       - labelSelector:
+      #           matchExpressions:
+      #             - {key: role, operator: In, values: [master]}
+      #         topologyKey: "kubernetes.io/hostname"
+      # affinity:
+      #   nodeAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       nodeSelectorTerms:
+      #       - matchExpressions:
+      #         - {key: opensearch-master, operator: In, values: ["true"]}
+      initContainers:
+      - name: init-sysctl
+        image: busybox:1.27.2
+        command:
+        - sysctl
+        - -w
+        - vm.max_map_count=262144
+        securityContext:
+          privileged: true
+      containers:
+        - name: opensearch-master
+          image: opensearchproject/opensearch:1.0.0
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: node.name
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+          - name: ES_JAVA_OPTS
+            value: -Xms512m -Xmx512m
+          resources:
+            requests:
+              cpu: 1.0
+            limits:
+              cpu: 3.0
+          ports:
+            - containerPort: 9300
+              name: http
+            - containerPort: 9200
+              name: https
+          livenessProbe:
+            tcpSocket:
+              port: https
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          volumeMounts:
+            - name: opensearch-data
+              mountPath: /usr/share/opensearch/data
+            - name: config
+              mountPath: /usr/share/opensearch/config/opensearch.yml
+              subPath: opensearch.yml
+            - name: ca-cert
+              mountPath: /usr/share/opensearch/config/certificates/ca
+              readOnly: true
+            - name: master-cert
+              mountPath: /usr/share/opensearch/config/certificates/os01
+              readOnly: true
+      volumes:
+        - name: opensearch-data
+          persistentVolumeClaim:
+            claimName: opensearch-pvc
+        - name: config
+          configMap:
+            name: opensearch-config
+        - name: ca-cert
+          secret:
+            secretName: ca-cert
+        - name: master-cert
+          secret:
+            secretName: master-cert
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: opensearch-master
+  labels:
+    app: opensearch
+    role: master
+spec:
+  selector:
+    app: opensearch
+    role: master
+  type: NodePort
+  ports:
+    - name: https
+      port: 9200
+      nodePort: 30002
+    - name: http
+      port: 9300

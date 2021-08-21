@@ -1,0 +1,45 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: opensearch-security-admin
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      initContainers:
+      - name: init
+        image: busybox:latest
+        command:
+        - /bin/sh
+        - -c
+        - |
+          until $(nc -w 5 opensearch-master 9300); do
+            echo "retrying opensearch-master:9300"
+            sleep 5
+          done
+      containers:
+        - name: main
+          image: opensearchproject/opensearch:1.0.0
+          imagePullPolicy: IfNotPresent
+          command:
+          - /bin/sh
+          - -c
+          - /setup.sh
+          env:
+          - name: os_node
+            value: opensearch-master
+          volumeMounts:
+          - name: setup
+            mountPath: /setup.sh
+            subPath: setup.sh
+          - name: ca-cert
+            mountPath: /usr/share/opensearch/config/certificates/ca
+            readOnly: true
+      volumes:
+      - name: setup
+        configMap:
+          name: opensearch-security-admin-config
+          defaultMode: 0755
+      - name: ca-cert
+        secret:
+          secretName: ca-cert
