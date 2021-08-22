@@ -4,6 +4,8 @@ Minimal working example of running OpenSearch with Keycloak.
 
 > This setup is not meant to be used in production
 
+> For a version using kubernetes: https://github.com/bob-california/opensearch-kubernetes
+
 ## Setup
 
 ### Environment variables
