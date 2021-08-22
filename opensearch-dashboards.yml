@@ -11,10 +11,11 @@ server.ssl.certificate: /usr/share/opensearch-dashboards/config/certificates/os-
 server.ssl.key: /usr/share/opensearch-dashboards/config/certificates/os-dashboards/os-dashboards.key
 
 # Encrypt traffic between OpenSearch-Dashboards and Opensearch
-opensearch.ssl.certificateAuthorities: [/usr/share/opensearch-dashboards/config/certificates/ca/ca.pem]
+opensearch.ssl.certificateAuthorities:
+  [/usr/share/opensearch-dashboards/config/certificates/ca/ca.pem]
 opensearch.ssl.verificationMode: full
 
-opensearch.requestHeadersWhitelist: ["securitytenant","Authorization"]
+opensearch.requestHeadersWhitelist: ["securitytenant", "Authorization"]
 opensearch_security.multitenancy.enabled: true
 opensearch_security.multitenancy.tenants.enable_global: true
 opensearch_security.multitenancy.tenants.enable_private: true

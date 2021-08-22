@@ -14,7 +14,7 @@ data:
 
     /usr/share/opensearch/plugins/opensearch-security/tools/securityadmin.sh \
       -cacert /usr/share/opensearch/config/certificates/ca/ca.pem \
-      -cert /usr/share/opensearch/config/certificates/ca/admin.pem \
-      -key /usr/share/opensearch/config/certificates/ca/admin.key \
+      -cert /usr/share/opensearch/config/certificates/admin/admin.pem \
+      -key /usr/share/opensearch/config/certificates/admin/admin.key \
       -cd /usr/share/opensearch/plugins/opensearch-security/securityconfig \
       -h $os_node -nhnv -icl

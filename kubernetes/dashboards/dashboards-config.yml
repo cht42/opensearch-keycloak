@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dashboards-config
+data:
+  opensearch_dashboards.yml: |
+    server.name: opensearch-dashboards
+    server.host: "0.0.0.0"
+
+    opensearch.hosts: [https://opensearch-master:9200]
+    opensearch.username: kibanaserver
+    opensearch.password: kibanaserver
+
+    # Encrypt traffic between the browser and OpenSearch-Dashboards
+    server.ssl.enabled: true
+    server.ssl.certificate: /usr/share/opensearch-dashboards/config/certificates/dashboards/dashboards.pem
+    server.ssl.key: /usr/share/opensearch-dashboards/config/certificates/dashboards/dashboards.key
+
+    # Encrypt traffic between OpenSearch-Dashboards and Opensearch
+    opensearch.ssl.certificateAuthorities:
+      [/usr/share/opensearch-dashboards/config/certificates/ca/ca.pem]
+    opensearch.ssl.verificationMode: full
+
+    opensearch.requestHeadersWhitelist: ["securitytenant", "Authorization"]
+    opensearch_security.multitenancy.enabled: true
+    opensearch_security.multitenancy.tenants.enable_global: true
+    opensearch_security.multitenancy.tenants.enable_private: true
+    opensearch_security.multitenancy.tenants.preferred: ["Private", "Global"]
+    opensearch_security.multitenancy.enable_filter: false

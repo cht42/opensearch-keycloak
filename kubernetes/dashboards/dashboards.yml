@@ -18,13 +18,30 @@ spec:
         - name: dashboards
           image: opensearchproject/opensearch-dashboards:1.0.0
           imagePullPolicy: IfNotPresent
-          env:
-            - name: OPENSEARCH_HOSTS
-              value: '["http://opensearch:9200"]'
           ports:
             - containerPort: 5601
-              name: http
+              name: https
               protocol: TCP
+          volumeMounts:
+            - name: config
+              mountPath: /usr/share/opensearch-dashboards/config/opensearch_dashboards.yml
+              subPath: opensearch_dashboards.yml
+            - name: ca-cert
+              mountPath: /usr/share/opensearch-dashboards/config/certificates/ca
+              readOnly: true
+            - name: dashboards-cert
+              mountPath: /usr/share/opensearch-dashboards/config/certificates/dashboards
+              readOnly: true
+      volumes:
+        - name: config
+          configMap:
+            name: dashboards-config
+        - name: ca-cert
+          secret:
+            secretName: ca-cert
+        - name: dashboards-cert
+          secret:
+            secretName: dashboards-cert
 ---
 apiVersion: v1
 kind: Service
@@ -37,6 +54,6 @@ spec:
     app: dashboards
   type: NodePort
   ports:
-    - name: http
+    - name: https
       port: 5601
-      nodePort: 30002
+      nodePort: 30003

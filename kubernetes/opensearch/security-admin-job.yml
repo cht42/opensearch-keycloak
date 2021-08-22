@@ -35,6 +35,9 @@ spec:
           - name: ca-cert
             mountPath: /usr/share/opensearch/config/certificates/ca
             readOnly: true
+          - name: admin-cert
+            mountPath: /usr/share/opensearch/config/certificates/admin
+            readOnly: true
       volumes:
       - name: setup
         configMap:
@@ -43,3 +46,6 @@ spec:
       - name: ca-cert
         secret:
           secretName: ca-cert
+      - name: admin-cert
+        secret:
+          secretName: admin-cert

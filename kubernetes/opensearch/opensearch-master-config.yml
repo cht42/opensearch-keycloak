@@ -18,14 +18,10 @@ data:
     plugins.security.ssl.transport.pemtrustedcas_filepath: certificates/ca/ca.pem
     plugins.security.ssl.transport.enforce_hostname_verification: false
 
-    plugins.security.ssl.transport.pemkey_filepath: certificates/os01/os01.key # relative path
-    plugins.security.ssl.transport.pemcert_filepath: certificates/os01/os01.pem
-    plugins.security.ssl.http.pemkey_filepath: certificates/os01/os01.key
-    plugins.security.ssl.http.pemcert_filepath: certificates/os01/os01.pem
+    plugins.security.ssl.transport.pemkey_filepath: certificates/opensearch-master/opensearch-master.key # relative path
+    plugins.security.ssl.transport.pemcert_filepath: certificates/opensearch-master/opensearch-master.pem
+    plugins.security.ssl.http.pemkey_filepath: certificates/opensearch-master/opensearch-master.key
+    plugins.security.ssl.http.pemcert_filepath: certificates/opensearch-master/opensearch-master.pem
 
     plugins.security.authcz.admin_dn:
       - 'CN=ADMIN,O=UN,L=UN,ST=UN,C=UN'
-    plugins.security.nodes_dn:
-      - 'CN=os01,O=UN,L=UN,ST=UN,C=UN'
-      - 'CN=os02,O=UN,L=UN,ST=UN,C=UN'
-      - 'CN=os03,O=UN,L=UN,ST=UN,C=UN'

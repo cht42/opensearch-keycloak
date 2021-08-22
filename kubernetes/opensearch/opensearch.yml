@@ -17,19 +17,6 @@ spec:
         app: opensearch
         role: master
     spec:
-      # affinity:
-      #   podAntiAffinity:
-      #     requiredDuringSchedulingIgnoredDuringExecution:
-      #       - labelSelector:
-      #           matchExpressions:
-      #             - {key: role, operator: In, values: [master]}
-      #         topologyKey: "kubernetes.io/hostname"
-      # affinity:
-      #   nodeAffinity:
-      #     requiredDuringSchedulingIgnoredDuringExecution:
-      #       nodeSelectorTerms:
-      #       - matchExpressions:
-      #         - {key: opensearch-master, operator: In, values: ["true"]}
       initContainers:
       - name: init-sysctl
         image: busybox:1.27.2
@@ -78,8 +65,8 @@ spec:
             - name: ca-cert
               mountPath: /usr/share/opensearch/config/certificates/ca
               readOnly: true
-            - name: master-cert
-              mountPath: /usr/share/opensearch/config/certificates/os01
+            - name: opensearch-master-cert
+              mountPath: /usr/share/opensearch/config/certificates/opensearch-master
               readOnly: true
       volumes:
         - name: opensearch-data
@@ -91,9 +78,9 @@ spec:
         - name: ca-cert
           secret:
             secretName: ca-cert
-        - name: master-cert
+        - name: opensearch-master-cert
           secret:
-            secretName: master-cert
+            secretName: opensearch-master-cert
 ---
 apiVersion: v1
 kind: Service
