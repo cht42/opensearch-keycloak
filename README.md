@@ -32,6 +32,8 @@ Then make sure to raise your host ulimits for OpenSearch:
 sudo sysctl -w vm.max_map_count=262144
 ```
 
+To make this change persistent, add the line `vm.max_map_count=262144` in the `/etc/sysctl.conf` file. Then execute `sudo sysctl -p`
+
 ### Keycloak
 
 Now, you will need to setup keycloak. Start by launching the service: `docker-compose up -d keycloak`. You can now access the admin interface: https://localhost:8443. The keycloak admin panel is quite complex to take in hands so I created a script to create a client for OpenSearch.
