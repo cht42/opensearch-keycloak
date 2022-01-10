@@ -36,7 +36,7 @@ To make this change persistent, add the line `vm.max_map_count=262144` in the `/
 
 ### Keycloak
 
-Now, you will need to setup keycloak. Start by launching the service: `docker-compose up -d keycloak`. You can now access the admin interface: https://localhost:8443. The keycloak admin panel is quite complex to take in hands so I created a script to create a client for OpenSearch.
+Now, you will need to setup keycloak. Start by launching the service: `docker-compose up -d keycloak`. You can now access the admin interface: https://172.17.0.1:8443. The keycloak admin panel is quite complex to take in hands so I created a script to create a client for OpenSearch.
 
 ```bash
 chmod +x setup_keycloak.sh && ./setup_keycloak.sh
@@ -68,8 +68,8 @@ Execute:
 docker-compose up -d
 ```
 
-Keycloak admin console: https://localhost:8443
+Keycloak admin console: https://172.17.0.1:8443
 
-OpenSearch Dashboards: https://localhost:5601
+OpenSearch Dashboards: https://172.17.0.1:5601
 
 > Use the values in the `.env` to connect to both.

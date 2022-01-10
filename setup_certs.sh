@@ -1,6 +1,6 @@
 #!/bin/bash
 
-mkdir -p certs/{ca,keycloak,os-dashboards,os01,os02,os03}
+mkdir -p certs/{ca,keycloak,os-dashboards,os}
 
 
 # Choose an appropriate DN
@@ -29,23 +29,11 @@ openssl pkcs8 -inform PEM -outform PEM -in certs/ca/admin-temp.key -topk8 -nocry
 openssl req -new -subj "$CERTS_DN/CN=ADMIN" -key certs/ca/admin.key -out certs/ca/admin.csr
 openssl x509 -req -in certs/ca/admin.csr -CA certs/ca/ca.pem -CAkey certs/ca/ca.key -CAcreateserial -sha256 -out certs/ca/admin.pem
 
-# Node 1
-openssl genrsa -out certs/os01/os01-temp.key 2048
-openssl pkcs8 -inform PEM -outform PEM -in certs/os01/os01-temp.key -topk8 -nocrypt -v1 PBE-SHA1-3DES -out certs/os01/os01.key
-openssl req -new -subj "$CERTS_DN/CN=os01" -key certs/os01/os01.key -out certs/os01/os01.csr
-openssl x509 -req -extfile <(printf "subjectAltName=DNS:localhost,IP:127.0.0.1,DNS:os01") -in certs/os01/os01.csr -CA certs/ca/ca.pem -CAkey certs/ca/ca.key -CAcreateserial -sha256 -out certs/os01/os01.pem
-
-# Node 2
-openssl genrsa -out certs/os02/os02-temp.key 2048
-openssl pkcs8 -inform PEM -outform PEM -in certs/os02/os02-temp.key -topk8 -nocrypt -v1 PBE-SHA1-3DES -out certs/os02/os02.key
-openssl req -new -subj "$CERTS_DN/CN=os02" -key certs/os02/os02.key -out certs/os02/os02.csr
-openssl x509 -req -extfile <(printf "subjectAltName=DNS:localhost,IP:127.0.0.1,DNS:os02") -in certs/os02/os02.csr -CA certs/ca/ca.pem -CAkey certs/ca/ca.key -CAcreateserial -sha256 -out certs/os02/os02.pem
-
-# Node 3
-openssl genrsa -out certs/os03/os03-temp.key 2048
-openssl pkcs8 -inform PEM -outform PEM -in certs/os03/os03-temp.key -topk8 -nocrypt -v1 PBE-SHA1-3DES -out certs/os03/os03.key
-openssl req -new -subj "$CERTS_DN/CN=os03" -key certs/os03/os03.key -out certs/os03/os03.csr
-openssl x509 -req -extfile <(printf "subjectAltName=DNS:localhost,IP:127.0.0.1,DNS:os03") -in certs/os03/os03.csr -CA certs/ca/ca.pem -CAkey certs/ca/ca.key -CAcreateserial -sha256 -out certs/os03/os03.pem
+# Nodes
+openssl genrsa -out certs/os/os-temp.key 2048
+openssl pkcs8 -inform PEM -outform PEM -in certs/os/os-temp.key -topk8 -nocrypt -v1 PBE-SHA1-3DES -out certs/os/os.key
+openssl req -new -subj "$CERTS_DN/CN=os" -key certs/os/os.key -out certs/os/os.csr
+openssl x509 -req -extfile <(printf "subjectAltName=DNS:localhost,IP:127.0.0.1,DNS:os,DNS:os,DNS:os01,DNS:os02,DNS:os03") -in certs/os/os.csr -CA certs/ca/ca.pem -CAkey certs/ca/ca.key -CAcreateserial -sha256 -out certs/os/os.pem
 
 # OpenSearch Dashboards
 openssl genrsa -out certs/os-dashboards/os-dashboards-temp.key 2048
@@ -55,11 +43,9 @@ openssl x509 -req -in certs/os-dashboards/os-dashboards.csr -CA certs/ca/ca.pem 
 
 # Cleanup
 rm certs/ca/admin-temp.key certs/ca/admin.csr
-rm certs/os01/os01-temp.key certs/os01/os01.csr
-rm certs/os02/os02-temp.key certs/os02/os02.csr
-rm certs/os03/os03-temp.key certs/os03/os03.csr
+rm certs/os/os-temp.key certs/os/os.csr
 rm certs/os-dashboards/os-dashboards-temp.key certs/os-dashboards/os-dashboards.csr
 
 # Adjusting permissions
-chmod 700 certs/{ca,os-dashboards,os01,os02,os03}
-chmod 600 certs/{ca/*,os-dashboards/*,os01/*,os02/*,os03/*}
+chmod 700 certs/{ca,os-dashboards,os}
+chmod 600 certs/{ca/*,os-dashboards/*,os/*}

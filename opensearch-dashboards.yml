@@ -24,8 +24,8 @@ opensearch_security.multitenancy.enable_filter: false
 
 opensearch_security.auth.type: openid
 opensearch_security.openid.connect_url: https://172.17.0.1:8443/auth/realms/master/.well-known/openid-configuration
-opensearch_security.openid.base_redirect_url: https://localhost:5601
-opensearch_security.openid.client_id: opensearch-dashboards
+opensearch_security.openid.base_redirect_url: https://172.17.0.1:5601
+opensearch_security.openid.client_id: dashboards
 opensearch_security.openid.client_secret: secret
 opensearch_security.openid.root_ca: /usr/share/opensearch-dashboards/config/certificates/ca/ca.pem
 opensearch_security.openid.verify_hostnames: "false"

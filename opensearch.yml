@@ -9,6 +9,11 @@ cluster.routing.allocation.disk.threshold_enabled: true
 cluster.routing.allocation.disk.watermark.low: 93%
 cluster.routing.allocation.disk.watermark.high: 95%
 
+plugins.security.ssl.transport.pemkey_filepath: certificates/os/os.key # relative path
+plugins.security.ssl.transport.pemcert_filepath: certificates/os/os.pem
+plugins.security.ssl.http.pemkey_filepath: certificates/os/os.key
+plugins.security.ssl.http.pemcert_filepath: certificates/os/os.pem
+
 plugins.security.allow_unsafe_democertificates: true
 plugins.security.ssl.http.enabled: true
 plugins.security.ssl.http.pemtrustedcas_filepath: certificates/ca/ca.pem
@@ -20,6 +25,4 @@ plugins.security.restapi.roles_enabled: ["all_access"]
 plugins.security.authcz.admin_dn:
   - 'CN=ADMIN,O=UN,L=UN,ST=UN,C=UN'
 plugins.security.nodes_dn:
-  - 'CN=os01,O=UN,L=UN,ST=UN,C=UN'
-  - 'CN=os02,O=UN,L=UN,ST=UN,C=UN'
-  - 'CN=os03,O=UN,L=UN,ST=UN,C=UN'
+  - 'CN=os,O=UN,L=UN,ST=UN,C=UN'

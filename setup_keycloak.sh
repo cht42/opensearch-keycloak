@@ -42,8 +42,8 @@ response=$(curl -kis -X POST "$KEYCLOAK_URL/auth/admin/realms/master/clients" \
 -d '
 {
   "clientId": "'$KEYCLOAK_DASHBOARDS_CLIENT_ID'",
-  "rootUrl": "https://localhost:5601",
-  "redirectUris": ["https://localhost:5601/*"],
+  "rootUrl": "https://172.17.0.1:5601",
+  "redirectUris": ["https://172.17.0.1:5601/*"],
   "publicClient": false,
   "secret": "'$KEYCLOAK_DASHBOARDS_CLIENT_SECRET'"
 }'| grep HTTP | awk '{print $2}')
