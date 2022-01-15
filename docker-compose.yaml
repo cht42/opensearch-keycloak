@@ -39,6 +39,7 @@ services:
       OPENSEARCH_JAVA_OPTS: "-Xms512m -Xmx512m" # minimum and maximum Java heap size, recommend setting both to 50% of system RAM
       node.name: os01
       DISABLE_INSTALL_DEMO_CONFIG: "true"
+      JAVA_HOME: /usr/share/opensearch/jdk
     ulimits:
       memlock:
         soft: -1
@@ -59,6 +60,7 @@ services:
     environment:
       OPENSEARCH_JAVA_OPTS: "-Xms512m -Xmx512m" # minimum and maximum Java heap size, recommend setting both to 50% of system RAM
       node.name: os02
+      JAVA_HOME: /usr/share/opensearch/jdk
       DISABLE_INSTALL_DEMO_CONFIG: "true"
     ulimits:
       memlock:
@@ -78,6 +80,7 @@ services:
     environment:
       OPENSEARCH_JAVA_OPTS: "-Xms512m -Xmx512m" # minimum and maximum Java heap size, recommend setting both to 50% of system RAM
       node.name: os03
+      JAVA_HOME: /usr/share/opensearch/jdk
       DISABLE_INSTALL_DEMO_CONFIG: "true"
     ulimits:
       memlock:
