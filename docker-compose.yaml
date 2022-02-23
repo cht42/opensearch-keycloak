@@ -34,7 +34,7 @@ services:
       POSTGRES_PASSWORD: password
 
   os01:
-    image: opensearchproject/opensearch:1.2.3
+    image: opensearchproject/opensearch:1.2.4
     environment:
       OPENSEARCH_JAVA_OPTS: "-Xms512m -Xmx512m" # minimum and maximum Java heap size, recommend setting both to 50% of system RAM
       node.name: os01
@@ -56,7 +56,7 @@ services:
         condition: service_healthy
 
   os02:
-    image: opensearchproject/opensearch:1.2.3
+    image: opensearchproject/opensearch:1.2.4
     environment:
       OPENSEARCH_JAVA_OPTS: "-Xms512m -Xmx512m" # minimum and maximum Java heap size, recommend setting both to 50% of system RAM
       node.name: os02
@@ -76,7 +76,7 @@ services:
         condition: service_healthy
 
   os03:
-    image: opensearchproject/opensearch:1.2.3
+    image: opensearchproject/opensearch:1.2.4
     environment:
       OPENSEARCH_JAVA_OPTS: "-Xms512m -Xmx512m" # minimum and maximum Java heap size, recommend setting both to 50% of system RAM
       node.name: os03
