@@ -34,7 +34,7 @@ services:
       POSTGRES_PASSWORD: password
 
   os01:
-    image: opensearchproject/opensearch:1.3.1
+    image: opensearchproject/opensearch:2.0.1
     environment:
       OPENSEARCH_JAVA_OPTS: "-Xms512m -Xmx512m" # minimum and maximum Java heap size, recommend setting both to 50% of system RAM
       node.name: os01
@@ -46,7 +46,7 @@ services:
         hard: -1
     volumes:
       - ./opensearch.yml:/usr/share/opensearch/config/opensearch.yml
-      - ./config.yml:/usr/share/opensearch/plugins/opensearch-security/securityconfig/config.yml
+      - ./config.yml:/usr/share/opensearch/config/opensearch-security/config.yml
       - ./certs:/usr/share/opensearch/config/certificates:ro
       - os-data1:/usr/share/opensearch/data
     ports:
@@ -56,7 +56,7 @@ services:
         condition: service_healthy
 
   os02:
-    image: opensearchproject/opensearch:1.3.1
+    image: opensearchproject/opensearch:2.0.1
     environment:
       OPENSEARCH_JAVA_OPTS: "-Xms512m -Xmx512m" # minimum and maximum Java heap size, recommend setting both to 50% of system RAM
       node.name: os02
@@ -68,7 +68,7 @@ services:
         hard: -1
     volumes:
       - ./opensearch.yml:/usr/share/opensearch/config/opensearch.yml
-      - ./config.yml:/usr/share/opensearch/plugins/opensearch-security/securityconfig/config.yml
+      - ./config.yml:/usr/share/opensearch/config/opensearch-security/config.yml
       - ./certs:/usr/share/opensearch/config/certificates:ro
       - os-data2:/usr/share/opensearch/data
     depends_on:
@@ -76,7 +76,7 @@ services:
         condition: service_healthy
 
   os03:
-    image: opensearchproject/opensearch:1.3.1
+    image: opensearchproject/opensearch:2.0.1
     environment:
       OPENSEARCH_JAVA_OPTS: "-Xms512m -Xmx512m" # minimum and maximum Java heap size, recommend setting both to 50% of system RAM
       node.name: os03
@@ -88,7 +88,7 @@ services:
         hard: -1
     volumes:
       - ./opensearch.yml:/usr/share/opensearch/config/opensearch.yml
-      - ./config.yml:/usr/share/opensearch/plugins/opensearch-security/securityconfig/config.yml
+      - ./config.yml:/usr/share/opensearch/config/opensearch-security/config.yml
       - ./certs:/usr/share/opensearch/config/certificates:ro
       - os-data3:/usr/share/opensearch/data
     depends_on:
@@ -96,7 +96,7 @@ services:
         condition: service_healthy
 
   dashboards:
-    image: opensearchproject/opensearch-dashboards:1.3.1
+    image: opensearchproject/opensearch-dashboards:2.0.1  
     ports:
       - 5601:5601
     volumes:
