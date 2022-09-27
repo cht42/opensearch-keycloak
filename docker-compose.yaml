@@ -19,7 +19,11 @@ services:
     depends_on:
       - postgres
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8080/auth/realms/master"]
+      test:
+        [
+          "CMD-SHELL",
+          "curl -f http://localhost:8080/auth/realms/master"
+        ]
       interval: 30s
       timeout: 20s
       retries: 3
@@ -34,7 +38,7 @@ services:
       POSTGRES_PASSWORD: password
 
   os01:
-    image: opensearchproject/opensearch:2.0.1
+    image: opensearchproject/opensearch:2.3.0
     environment:
       OPENSEARCH_JAVA_OPTS: "-Xms512m -Xmx512m" # minimum and maximum Java heap size, recommend setting both to 50% of system RAM
       node.name: os01
@@ -56,7 +60,7 @@ services:
         condition: service_healthy
 
   os02:
-    image: opensearchproject/opensearch:2.0.1
+    image: opensearchproject/opensearch:2.3.0
     environment:
       OPENSEARCH_JAVA_OPTS: "-Xms512m -Xmx512m" # minimum and maximum Java heap size, recommend setting both to 50% of system RAM
       node.name: os02
@@ -76,7 +80,7 @@ services:
         condition: service_healthy
 
   os03:
-    image: opensearchproject/opensearch:2.0.1
+    image: opensearchproject/opensearch:2.3.0
     environment:
       OPENSEARCH_JAVA_OPTS: "-Xms512m -Xmx512m" # minimum and maximum Java heap size, recommend setting both to 50% of system RAM
       node.name: os03
@@ -96,7 +100,7 @@ services:
         condition: service_healthy
 
   dashboards:
-    image: opensearchproject/opensearch-dashboards:2.0.1  
+    image: opensearchproject/opensearch-dashboards:2.3.0
     ports:
       - 5601:5601
     volumes:
