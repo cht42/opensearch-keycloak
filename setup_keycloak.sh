@@ -4,6 +4,11 @@ GREEN='\033[0;32m'
 RED='\033[0;31m'
 NC='\033[0m'
 
+if ! command -v jq >/dev/null 2>&1; then
+    echo "jq is required but not installed. Please install jq." >&2
+    exit 1
+fi
+
 export $(grep -v '^#' .env | xargs)
 
 echo -n "Getting admin access token..."

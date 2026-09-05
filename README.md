@@ -8,6 +8,10 @@ Minimal working example of running OpenSearch with Keycloak.
 
 ## Setup
 
+### Requirements
+
+- `jq` must be installed. Install it with your system package manager, e.g. `sudo apt install jq`.
+
 ### Environment variables
 
 - KEYCLOAK_ADMIN_LOGIN: login for keycloak admin user
